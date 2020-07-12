@@ -27,6 +27,7 @@
     "url": "https://github.com/atweel/runtime/issues"
   },
   "dependencies": {
+    "@atweel/primitives": "^1.0.0-beta.18",
     "lodash": "^4.17.19"
   }
 }

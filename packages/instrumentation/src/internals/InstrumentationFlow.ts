@@ -1,14 +1,14 @@
-import { InstrumenationSyntax } from './InstrumenationSyntax';
-import { InstrumentationBuilder } from './InstrumentationBuilder';
+import { InstrumentationSyntax } from '~/internals/InstrumentationSyntax';
+import { InstrumentationBuilder } from '~/internals/InstrumentationBuilder';
 import { Instrumentable } from '~/internals/Instrumentable';
 import { InstrumentationLike } from '~/types';
 
-class InstrumentationFlow<T extends InstrumentationLike<T>> implements InstrumenationSyntax<object, any> {
-    public constructor(target: Instrumentable<T>, instrumentation: InstrumentationLike<T>) {
+class InstrumentationFlow<I extends InstrumentationLike<I>> implements InstrumentationSyntax<object, any> {
+    public constructor(target: Instrumentable<I>, instrumentation: InstrumentationLike<I>) {
         this.builder = new InstrumentationBuilder(target, instrumentation);
     }
 
-    public with(instrumentation: Exclude<keyof Instrumentable<T>, symbol>, ...parameters: any[]): InstrumentationFlow<T> {
+    public with(instrumentation: Exclude<keyof Instrumentable<I>, symbol>, ...parameters: any[]): InstrumentationFlow<I> {
         this.builder.addInstrument(instrumentation, parameters);
 
         return this;
@@ -18,7 +18,7 @@ class InstrumentationFlow<T extends InstrumentationLike<T>> implements Instrumen
         return this.builder.build();
     }
 
-    private readonly builder: InstrumentationBuilder<T>;
+    private readonly builder: InstrumentationBuilder<I>;
 }
 
 export {

@@ -1,11 +1,11 @@
-import { InstrumentationConfiguration, InstrumentationLike } from '~/types';
+import { InstrumentationConfiguration, InstrumentationLike, AsyncInstrumentationLike, InstrumentationHook } from '~/types';
 import { Instrumentable } from './Instrumentable';
-import { InstrumentationHook } from '~/types';
+import { AsyncInstrumentable } from './AsyncInstrumentable';
 
-class InstrumentationBuilder<I extends InstrumentationLike<I>> {
+class AsyncInstrumentationBuilder<I extends AsyncInstrumentationLike<I>> {
     public constructor(
-        private readonly target: Instrumentable<I>, 
-        private readonly instrumentation: InstrumentationLike<I>
+        private readonly target: AsyncInstrumentable<I>, 
+        private readonly instrumentation: AsyncInstrumentationLike<I>
     ) {
 
     }
@@ -18,7 +18,7 @@ class InstrumentationBuilder<I extends InstrumentationLike<I>> {
         this.configuration[name] = parameters;
     }
 
-    public build(): object {
+    public build(): Promise<object> {
         return this.target[InstrumentationHook](this.instrumentation, this.configuration);
     }
 
@@ -26,5 +26,5 @@ class InstrumentationBuilder<I extends InstrumentationLike<I>> {
 }
 
 export {
-    InstrumentationBuilder,
+    AsyncInstrumentationBuilder,
 };

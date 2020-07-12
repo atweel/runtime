@@ -2,21 +2,44 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import 'jest';
 
+import { mark, annotate } from '@atweel/primitives';
+
 import { Instrumentable } from '~/internals/Instrumentable';
-import { InstrumentationConfiguration } from '~/types';
-import { InstrumentationHook } from '~/constants';
+import { InstrumentationConfiguration, InstrumentationHookHandler, SyncInstrumentationHook, AsyncInstrumentationHook } from '~/types';
+import { InstrumentationHook } from '~/types';
 import instrumented from './instrumented';
+import { AsyncInstrumentable } from '~/internals/AsyncInstrumentable';
 
 class SampleInstrumentation {
     
 }
 
 class SampleInstrumentable implements Instrumentable<SampleInstrumentation> {
-    public [InstrumentationHook](instrumentation: SampleInstrumentation, configuration: InstrumentationConfiguration<SampleInstrumentation>): object {
-        return Object.entries(configuration)
-            .map(([ name, parameters ]) => parameters ? (this as any)[name](...parameters) : {})
-            .reduce((previous, current) => ({  ...previous, ...current }), {});
+    public constructor() {
+        const hook = (instrumentation: SampleInstrumentation, configuration: InstrumentationConfiguration<SampleInstrumentation>): object => {
+            return Object.entries(configuration)
+                .map(([ name, parameters ]) => parameters ? (instrumentation as any)[name](...parameters) : {})
+                .reduce((previous, current) => ({  ...previous, ...current }), {});
+        };
+
+        this[InstrumentationHook] = SyncInstrumentationHook.from(hook);
     }
+
+    public readonly [InstrumentationHook]: SyncInstrumentationHook<SampleInstrumentation>;
+}
+
+class SampleAsyncInstrumentable implements AsyncInstrumentable<SampleInstrumentation> {
+    public constructor() {
+        const hook = async (instrumentation: SampleInstrumentation, configuration: InstrumentationConfiguration<SampleInstrumentation>): Promise<object> => {
+            return Object.entries(configuration)
+                .map(([ name, parameters ]) => parameters ? (instrumentation as any)[name](...parameters) : {})
+                .reduce((previous, current) => ({  ...previous, ...current }), {});
+        };
+
+        this[InstrumentationHook] = AsyncInstrumentationHook.from(hook);
+    }
+
+    public readonly [InstrumentationHook]: AsyncInstrumentationHook<SampleInstrumentation>;
 }
 
 interface SampleInstrumentation1Result {
@@ -48,15 +71,28 @@ SampleInstrumentation.prototype.instrument2 = function (parameter: string): Samp
 };
 
 describe('instrumented', () => {
-    it('', () => {
+    it('yields output that is a combination of outputs of individual instruments for a synchronous instrumentable', () => {
         const instrumentable = new SampleInstrumentable();
 
-        const result = instrumented(instrumentable, new SampleInstrumentation())
+        const result = instrumented(instrumentable, SampleInstrumentation)
             .with('instrument1', 20)
             .with('instrument2', '10')
             .complete();
 
         result.callInstrumentation1('test');
         result.callInstrumentation2();
+    });
+
+    it('yields output that is a combination of outputs of individual instruments for an asynchronous instrumentable and a synchronous instrumentation', async () => {
+        const instrumentable = new SampleAsyncInstrumentable();
+
+        return instrumented(instrumentable, SampleInstrumentation)
+            .with('instrument1', 20)
+            .with('instrument2', '10')
+            .ready()
+            .then((result) => {
+                result.callInstrumentation1('test');
+                result.callInstrumentation2();
+            });
     });
 });

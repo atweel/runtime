@@ -1,9 +1,8 @@
-import { InstrumentationHook } from '~/constants';
-import { InstrumentationHookHandler } from '~/types';
-import { InstrumentationLike } from '~/types';
+import { InstrumentationHook } from '~/types';
+import { InstrumentationLike, SyncInstrumentationHook } from '~/types';
 
 type Instrumentable<I extends InstrumentationLike<I>> = {
-    [InstrumentationHook]: InstrumentationHookHandler<I>;
+    [InstrumentationHook]: SyncInstrumentationHook<I>;
 }
 
 export {
