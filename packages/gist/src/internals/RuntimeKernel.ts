@@ -18,11 +18,15 @@ export interface BuiltInCapabilitiesRuntimeContextHooks {
 
 class RuntimeKernel implements AsyncInstrumentable<Runtime> {
     public constructor() {
-        const runtime = new Runtime();
+        const runtime = new Runtime(null);
 
         this.layers.push(new RuntimeLayerImplement(this, {
             'domains': runtime.domains(),
         }));
+    }
+
+    public createRuntime(): Runtime {
+        return new Runtime(last(this.layers) || null);
     }
     
     public readonly [InstrumentationHook]: AsyncInstrumentationHook<Runtime, object> = AsyncInstrumentationHook.from(async (runtime, configuration) => {

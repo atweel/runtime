@@ -14,7 +14,7 @@ runtime()
     .ready()
     .then(({ diagnostics, domains, events, containers } ) => {
         diagnostics.notify('Runtime ready');
-        // console.log(runtime);
+        // console.log(runtime);s
         // runtime.exposeRuntimeContextHooks.notify(`Runtime ready.`);
     })
     .catch(console.error);

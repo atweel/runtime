@@ -10,13 +10,17 @@ import { RuntimeInstrumentationLike } from '~/types';
 class RuntimeLayerImplement implements RuntimeLayer {
     public constructor(
         private kernel: RuntimeKernel,
-        private capabilities: Dictionary<object>
+        private _capabilities: Dictionary<object>
     ) {
 
     }   
 
     public externalizeCapabilities(): object {
-        return this.capabilities;
+        return this._capabilities;
+    }
+
+    public get capabilitites(): object {
+        return this._capabilities;
     }
 
     public async extend<I extends RuntimeInstrumentationLike<I>>(instrumentation: I & Record<string, InstrumentationFunction<RuntimeCapability> | undefined>, configuration: InstrumentationConfiguration<I>): Promise<RuntimeLayer> {
@@ -29,7 +33,7 @@ class RuntimeLayerImplement implements RuntimeLayer {
                 throw new Error();
             }
 
-            return Promise.resolve(instrument(args))
+            return Promise.resolve(instrument(this, ...(args as any[])))
                 .then((capability) => {
                     extendedCapabilities[name] = capability;
                 });
@@ -37,7 +41,7 @@ class RuntimeLayerImplement implements RuntimeLayer {
 
         await Promise.all(promises);
 
-        const combinedCapabilities = defaults(extendedCapabilities, this.capabilities);
+        const combinedCapabilities = defaults(extendedCapabilities, this._capabilities);
 
         return new RuntimeLayerImplement(this.kernel, combinedCapabilities);
     }
