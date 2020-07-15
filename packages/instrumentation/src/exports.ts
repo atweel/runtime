@@ -1,6 +1,7 @@
 export * from '~/types';
 export * from '~/types';
 export * from '~/internals/Instrumentable';
+export * from '~/internals/AsyncInstrumentable';
 export * from '~/internals/InstrumentationSyntax';
 export * from '~/internals/AsyncInstrumentationSyntax';
 export * from '~/internals/InstrumentationBuilder';

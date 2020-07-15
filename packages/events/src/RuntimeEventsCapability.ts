@@ -1,9 +1,13 @@
+import { EventEmitter } from 'events';
+
 import { RuntimeEvents } from '~/RuntimeEvents';
 
 class RuntimeEventsCapability implements RuntimeEvents {
     public emit(event: string, payload: any): void {
-        throw new Error('Method not implemented.');
+        this.eventEmitter.emit(event, payload);
     }
+
+    private readonly eventEmitter: EventEmitter = new EventEmitter();
 }
 
 export {

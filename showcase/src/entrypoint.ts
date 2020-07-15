@@ -14,6 +14,10 @@ runtime()
     .ready()
     .then(({ diagnostics, domains, events, containers } ) => {
         diagnostics.notify('Runtime ready');
+
+        containers.get('service');
+
+        events.emit('test-event', { value: true });
         // console.log(runtime);s
         // runtime.exposeRuntimeContextHooks.notify(`Runtime ready.`);
     })
