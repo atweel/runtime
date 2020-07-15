@@ -1,0 +1,10 @@
+{
+  "exclude": [ "*" ],
+  "references": [
+    { "path": "gist" },
+    { "path": "containers" },
+    { "path": "events" },
+    { "path": "diagnostics" },
+    { "path": "instrumentation" }
+  ]
+}

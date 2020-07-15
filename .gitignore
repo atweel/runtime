@@ -3,3 +3,5 @@ lib/
 app/
 *.tsbuildinfo
 *.log
+
+.DS_Store

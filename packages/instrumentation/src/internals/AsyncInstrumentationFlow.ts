@@ -3,7 +3,7 @@ import { AsyncInstrumentable } from './AsyncInstrumentable';
 import { AsyncInstrumentationBuilder } from './AsyncInstrumentationBuilder';
 import { AsyncInstrumentationSyntax, InstrumentationReadyCallback } from './AsyncInstrumentationSyntax';
 
-class AsyncInstrumentationFlow<I extends AsyncInstrumentationLike<I>> implements AsyncInstrumentationSyntax<object, any> {
+class AsyncInstrumentationFlow<I extends AsyncInstrumentationLike<I>> implements AsyncInstrumentationSyntax<I, any> {
     public constructor(target: AsyncInstrumentable<I>, instrumentation: AsyncInstrumentationLike<I>) {
         this.builder = new AsyncInstrumentationBuilder(target, instrumentation);
     }

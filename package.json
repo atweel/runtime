@@ -8,10 +8,15 @@
     "clean": "lerna run clean",
     "lint": "eslint --ext .ts .",
     "lint:fix": "yarn lint --fix",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "build:packages": "ttsc --build packages",
+    "watch:packages": "ttsc --build --watch --preserveWatchOutput packages",
+    "watch:showcase": "ts-node-dev --respawn --debounce 500 showcase/src/entrypoint.ts",
+    "develop:showcase": "concurrently 'yarn watch:packages' 'yarn watch:showcase'"
   },
   "workspaces": [
-    "packages/**"
+    "packages/**",
+    "showcase"
   ],
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
@@ -20,9 +25,11 @@
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "@zerollup/ts-transform-paths": "^1.7.18",
+    "concurrently": "^5.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.3",
+    "jest": "^26.1.0",
     "lerna": "^3.14.1",
     "node-dev": "^4.0.0",
     "ts-jest": "^26.1.1",

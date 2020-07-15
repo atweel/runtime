@@ -4,18 +4,22 @@ import { Constructor, Marked, Callable, mark, annotate, CallableExecutionMode } 
 import { Instrumentable } from '~/internals/Instrumentable';
 import { AsyncInstrumentable } from '~/internals/AsyncInstrumentable';
 
-export type InstrumentationLike<I> = {
-    [K in keyof I]: I[K] extends (...parameters: any[]) => object ? I[K] : never;
+export type InstrumentationFunction<O extends object = object, A extends any[] = any[]> = (...parameters: A) => Promise<O> | O;
+
+export type InstrumentationLike<I, O extends object = object, A extends any[] = any[]> = {
+    [K in keyof I]: I[K] extends (...parameters: A) => O ? I[K] : never;
 }
-export type AsyncInstrumentationLike<I> = {
-    [K in keyof I]: I[K] extends (...parameters: any[]) => Promise<object> | object ? I[K] : never;
+export interface InstrumentationDictionary {
+    [key: string]: InstrumentationFunction | undefined;
 }
+export type AsyncInstrumentationLike<I, O extends object = object, A extends any[] = any[]> = {
+    [K in keyof I]: I[K] extends ((...parameters: A) => Promise<O> | O) ? I[K] : never;
+};
+
 export type InstrumentationHookHandler<I extends InstrumentationLike<I>> = (instrumentation: I, configuration: InstrumentationConfiguration<I>) => object;
 export type InstrumentationHookAsyncHandler<I extends AsyncInstrumentationLike<I>> = (instrumentation: I, configuration: InstrumentationConfiguration<I>) => Promise<object>;
-export type InstrumentationConfiguration<I extends InstrumentationLike<I> | AsyncInstrumentationLike<I>> = Partial<Record<keyof I, any[]>>;
-export type InstrumentationOf<T> = T extends Instrumentable<infer I> | AsyncInstrumentable<infer I>
-    ? I 
-    : never;
+export type InstrumentationConfiguration<I extends InstrumentationLike<I, any> | AsyncInstrumentationLike<I, any>> = Partial<Record<keyof I, any[]>>;
+export type InstrumentationOf<T> = T extends Instrumentable<infer I> | AsyncInstrumentable<infer I> ? I : never;
 export type InstrumentationConstructor<I> = Constructor<InstrumentationLike<I>>;
 export type AsyncInstrumentationConstructor<I> = Constructor<AsyncInstrumentationLike<I>>;
 
