@@ -1,15 +1,10 @@
 import { AsyncInstrumentationLike } from '@atweel/runtime-instrumentation';
-import { RuntimeCapability } from './RuntimeCapability';
-
-interface RuntimeDomainsCapabilityHooks {
-    // createDomain(): object;
-}
+import { LocalDomains } from './LocalDomains';
+import { LocalDomainsCapability } from './LocalDomainsCapability';
 
 class Runtime implements AsyncInstrumentationLike<Runtime, object> {
-    public domains(): RuntimeDomainsCapabilityHooks {
-        return {
-
-        };
+    public domains(): LocalDomains {
+        return new LocalDomainsCapability();
     }
 }
 
