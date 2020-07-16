@@ -27,7 +27,7 @@
     "url": "https://github.com/atweel/runtime/issues"
   },
   "dependencies": {
-    "@atweel/runtime": "^1.0.0-alpha.0",
+    "@atweel/runtime": "^0.0.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {
