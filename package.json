@@ -12,7 +12,9 @@
     "build:packages": "ttsc --build packages",
     "watch:packages": "ttsc --build --watch --preserveWatchOutput packages",
     "watch:showcase": "ts-node-dev --respawn --debounce 500 showcase/src/entrypoint.ts",
-    "develop:showcase": "concurrently 'yarn watch:packages' 'yarn watch:showcase'"
+    "develop:showcase": "concurrently 'yarn watch:packages' 'yarn watch:showcase'",
+    "prepublishOnly": "yarn rebuild && yarn lint && yarn test",
+    "release:canary": "lerna publish --canary premajor --preid rc --pre-dist-tag rc"
   },
   "workspaces": [
     "packages/**",
