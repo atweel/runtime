@@ -27,7 +27,7 @@
     "url": "https://github.com/atweel/runtime/issues"
   },
   "dependencies": {
-    "@atweel/runtime-instrumentation": "^1.0.0-alpha.0",
+    "@atweel/instrumentation": "~1.0.0-rc.15",
     "debug": "^4.1.1",
     "lodash": "^4.17.15"
   },

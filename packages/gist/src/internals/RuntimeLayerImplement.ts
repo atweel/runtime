@@ -1,6 +1,6 @@
 import { Dictionary, defaults, entries } from 'lodash';
 
-import { InstrumentationConfiguration, InstrumentationFunction } from '@atweel/runtime-instrumentation';
+import { InstrumentationConfiguration, InstrumentationFunction } from '@atweel/instrumentation';
 
 import { RuntimeLayer } from '~/internals/RuntimeLayer';
 import { RuntimeKernel } from '~/internals/RuntimeKernel';

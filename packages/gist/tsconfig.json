@@ -71,7 +71,7 @@
     ]
   },
   "references": [
-    { "path": "../instrumentation" }
+
   ],
   "include": [
     "src/**/*.ts", "src/internals/RuntimeCapability.ts", "bak/RuntimeInstrumentable.ts"

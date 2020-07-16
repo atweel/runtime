@@ -1,4 +1,4 @@
-import { InstrumentationConfiguration, AsyncInstrumentationLike } from '@atweel/runtime-instrumentation';
+import { InstrumentationConfiguration, AsyncInstrumentationLike } from '@atweel/instrumentation';
 import { Dictionary } from 'lodash';
 
 interface RuntimeLayer{

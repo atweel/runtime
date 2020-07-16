@@ -1,7 +1,7 @@
 // import createDebug from 'debug';
 import { last } from 'lodash';
 
-import { AsyncInstrumentable, InstrumentationHook, AsyncInstrumentationHook } from '@atweel/runtime-instrumentation';
+import { AsyncInstrumentable, InstrumentationHook, AsyncInstrumentationHook } from '@atweel/instrumentation';
 import { RuntimeLayer } from './RuntimeLayer';
 import { RuntimeLayerImplement } from './RuntimeLayerImplement';
 import { Runtime } from '~/internals/Runtime';
@@ -18,15 +18,11 @@ export interface BuiltInCapabilitiesRuntimeContextHooks {
 
 class RuntimeKernel implements AsyncInstrumentable<Runtime> {
     public constructor() {
-        const runtime = new Runtime(null);
+        const runtime = new Runtime();
 
         this.layers.push(new RuntimeLayerImplement(this, {
-            'domains': runtime.domains(),
+            'domains': runtime.domains(null),
         }));
-    }
-
-    public createRuntime(): Runtime {
-        return new Runtime(last(this.layers) || null);
     }
     
     public readonly [InstrumentationHook]: AsyncInstrumentationHook<Runtime, object> = AsyncInstrumentationHook.from(async (runtime, configuration) => {

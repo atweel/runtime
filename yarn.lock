@@ -13,6 +13,14 @@
     moment "^2.24.0"
     reflect-metadata "^0.1.13"
 
+"@atweel/instrumentation@~1.0.0-rc.15":
+  version "1.0.0-rc.17"
+  resolved "https://registry.yarnpkg.com/@atweel/instrumentation/-/instrumentation-1.0.0-rc.17.tgz#d62c0228cd2b6a4d7ca2d699f07a1598dc13e0ce"
+  integrity sha512-YSjsacL4qALR3LGkll4luYMMv0cxSPclDtuMdazVmppVUQ5sr0c3scz8gPbfTkiOp1D23y5TnusIpNU8qQoDQg==
+  dependencies:
+    "@atweel/primitives" "^1.0.0-beta.18"
+    lodash "^4.17.19"
+
 "@atweel/primitives@^1.0.0-beta.18":
   version "1.0.0-beta.18"
   resolved "https://registry.yarnpkg.com/@atweel/primitives/-/primitives-1.0.0-beta.18.tgz#0391a59398af1202a74d759c40877615f230277b"

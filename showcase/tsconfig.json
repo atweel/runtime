@@ -67,5 +67,11 @@
           "transform": "@zerollup/ts-transform-paths"
       }
     ]
-  }
+  },
+  "references": [
+    { "path": "../packages/gist" },
+    { "path": "../packages/events" },
+    { "path": "../packages/diagnostics" },
+    { "path": "../packages/containers" }
+  ]
 }

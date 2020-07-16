@@ -4,7 +4,6 @@
     { "path": "gist" },
     { "path": "containers" },
     { "path": "events" },
-    { "path": "diagnostics" },
-    { "path": "instrumentation" }
+    { "path": "diagnostics" }
   ]
 }
